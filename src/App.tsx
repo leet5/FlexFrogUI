@@ -1,35 +1,43 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, {useEffect, useState} from 'react';
 
-function App() {
-  const [count, setCount] = useState(0)
+const App: React.FC = () => {
+    const [query, setQuery] = useState('');
+    const [results, setResults] = useState<string[]>([]);
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    useEffect(() => {
+        const tg = window.Telegram?.WebApp;
+        if (!tg) return;
 
-export default App
+        tg.expand();
+        tg.MainButton.setText('Search');
+
+        const handleSearch = async () => {
+            const initData = tg.initData || '';
+            const res = await fetch('https://your-backend-url/search', {
+                method: 'POST', headers: {
+                    'Content-Type': 'application/json', 'X-Telegram-InitData': initData
+                }, body: JSON.stringify({query})
+            });
+            const data = await res.json();
+            setResults(data.images || []);
+        };
+
+        tg.MainButton.onClick(handleSearch);
+    }, [query]);
+
+    return (<div className="p-4 text-center">
+            <h1 className="text-xl font-bold mb-4">Telegram Image Search</h1>
+            <input
+                type="text"
+                placeholder="Search images..."
+                className="border border-gray-300 p-2 rounded w-full mb-4"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+            />
+            <div className="grid grid-cols-3 gap-2">
+                {results.map((url, index) => (<img key={index} src={url} alt="result" className="rounded shadow"/>))}
+            </div>
+        </div>);
+};
+
+export default App;

@@ -1,0 +1,26 @@
+### GET request to example server
+GET https://examples.http-client.intellij.net/get
+    ?generated-in=IntelliJ IDEA
+
+###
+
+POST https://api.telegram.org/bot7541844067:AAEmnuV1Lt1v2phka_IhVib61k4Jew2v78g/sendMessage
+Content-Type: application/json
+
+{
+  "chat_id": "71475718",
+  "text": "🧪 Open Mini App",
+  "reply_markup": {
+    "inline_keyboard": [
+      [
+        {
+          "text": "Open Image Search",
+          "web_app": {
+            "url": "https://e97d-91-132-92-160.ngrok-free.app",
+            "headers": "ngrok-skip-browser-warning=true"
+          }
+        }
+      ]
+    ]
+  }
+}
