@@ -1,0 +1,56 @@
+:root {
+    --froggy-green: #3ba776;
+    --froggy-dark: #245e49;
+    --froggy-light: #e6f5ec;
+    --froggy-accent: #b3e8c8;
+}
+
+.froggy-header {
+    background-color: var(--froggy-green);
+    color: white;
+}
+
+.froggy-footer {
+    background-color: var(--froggy-light);
+    color: var(--froggy-dark);
+}
+
+.froggy-btn {
+    background-color: var(--froggy-green);
+    color: white;
+    border: none;
+}
+
+.froggy-btn:hover {
+    background-color: var(--froggy-dark);
+}
+
+.froggy-border {
+    border-color: var(--froggy-green) !important;
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-8px);
+    }
+}
+
+.flexfrog-logo {
+    height: 48px;
+    animation: bounce 2s ease-in-out infinite;
+}
+
+.fade-animation {
+    opacity: 1;
+    transform: scale(1);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.fade-animation-hidden {
+    opacity: 0;
+    transform: scale(0.98);
+    pointer-events: none;
+}

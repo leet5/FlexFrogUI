@@ -16,7 +16,7 @@ Content-Type: application/json
         {
           "text": "Open Image Search",
           "web_app": {
-            "url": "https://e97d-91-132-92-160.ngrok-free.app",
+            "url": "https://23bc-91-132-92-160.ngrok-free.app",
             "headers": "ngrok-skip-browser-warning=true"
           }
         }
