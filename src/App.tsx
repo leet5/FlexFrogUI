@@ -44,6 +44,10 @@ const App: React.FC = () => {
     }, [query, selectedImage]);
 
     useEffect(() => {
+        setSelectedImage(null)
+    }, [query]);
+
+    useEffect(() => {
         const tg = window.Telegram?.WebApp;
         if (!tg) return;
 
@@ -59,7 +63,7 @@ const App: React.FC = () => {
             <main className="container text-center flex-grow-1 py-4">
                 <SearchBar value={query} onChange={setQuery} onSearch={handleSearch}/>
                 <ImageUploader searchQuery={query} onImageSelect={setSelectedImage} />
-                {selectedImage && <ImagePreview image={selectedImage} tgAvailable={tgAvailable} onSearch={handleSearch}/>}
+                <ImagePreview image={selectedImage} tgAvailable={tgAvailable} onSearch={handleSearch}/>
                 <ResultGrid results={results}/>
             </main>
             <Footer/>

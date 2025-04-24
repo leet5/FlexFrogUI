@@ -1,21 +1,22 @@
 import React, {useEffect, useState} from 'react';
 
 type Props = {
-    image: File; tgAvailable: boolean; onSearch: () => void;
+    image: File | null; tgAvailable: boolean; onSearch: () => void;
 };
 
 const ImagePreview: React.FC<Props> = ({image, tgAvailable, onSearch}) => {
     const [previewUrl, setPreviewUrl] = useState<string>('');
 
     useEffect(() => {
-        const url = URL.createObjectURL(image);
-        setPreviewUrl(url);
-
-        return () => URL.revokeObjectURL(url); // Clean up the object URL
+        if (image) {
+            const url = URL.createObjectURL(image);
+            setPreviewUrl(url);
+            return () => URL.revokeObjectURL(url);
+        }
     }, [image]);
 
     return (
-        <div className="mt-3">
+        <div className={`mt-3 fade-animation ${image ? '' : 'fade-animation-hidden'}`}>
             <strong>Selected Image:</strong>
             <div className="mt-2">
                 <img
@@ -25,9 +26,11 @@ const ImagePreview: React.FC<Props> = ({image, tgAvailable, onSearch}) => {
                     style={{maxHeight: '200px'}}
                 />
             </div>
-            {!tgAvailable && (<button className="btn froggy-btn mt-3" onClick={onSearch}>
+            {!tgAvailable && (
+                <button className="btn froggy-btn mt-3" onClick={onSearch}>
                     Search
-                </button>)}
+                </button>
+            )}
         </div>
     );
 };

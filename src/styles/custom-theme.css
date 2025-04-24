@@ -52,5 +52,7 @@
 .fade-animation-hidden {
     opacity: 0;
     transform: scale(0.98);
+    visibility: hidden;
+    position: absolute;
     pointer-events: none;
 }
