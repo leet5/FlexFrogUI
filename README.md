@@ -1,7 +1,6 @@
 # FlexFrog UI
-<div style="text-align: center;">
-   <img src="src/assets/flex-frog-ui-logo.png" alt="FlexFrog UI Logo" width="256">
-</div>
+
+<img src="src/assets/flex-frog-ui-logo.png" alt="FlexFrog UI Logo" width="256">
 
 FlexFrog UI is a React-based web application that integrates with Telegram Web Apps to provide an intuitive interface for searching and managing images in Telegram chats using tags. 
 The app supports image uploads, tag-based searches, and displays results in a responsive grid layout.
