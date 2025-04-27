@@ -32,7 +32,7 @@ const App: React.FC = () => {
 
     useEffect(() => {
         if (debouncedQuery) {
-            fetch(`flex-frog-bot:8080/api/v1/search?user_id=${userID}&query=${debouncedQuery}`)
+            fetch(`http://flex-frog-bot:8080/api/v1/search?user_id=${userID}&query=${debouncedQuery}`)
                 .then(res => res.json())
                 .then(data => {
                     setImageCards(data)
