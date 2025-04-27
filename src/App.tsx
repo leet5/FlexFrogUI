@@ -7,6 +7,8 @@ import ResultGrid from './components/ResultGrid';
 import {ImageCardType} from "./types/types.ts";
 
 const App: React.FC = () => {
+    const backendURL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:8080';
+
     const [query, setQuery] = useState('');
     const [debouncedQuery, setDebouncedQuery] = useState(query);
     const [imageCards, setImageCards] = useState<ImageCardType[]>([]);
@@ -32,13 +34,13 @@ const App: React.FC = () => {
 
     useEffect(() => {
         if (debouncedQuery) {
-            fetch(`http://flex-frog-bot:8080/api/v1/search?user_id=${userID}&query=${debouncedQuery}`)
+            fetch(`${backendURL}/api/v1/search?user_id=${userID}&query=${debouncedQuery}`)
                 .then(res => res.json())
                 .then(data => {
                     setImageCards(data)
                 });
         }
-    }, [userID, debouncedQuery]);
+    }, [backendURL, userID, debouncedQuery]);
 
     return (
         <div className="d-flex flex-column min-vh-100">
