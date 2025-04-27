@@ -11,7 +11,7 @@ const ResultGrid: React.FC<ResultGridProps> = ({results}) => {
     }
     return (
         <div className="row g-2 mt-4">
-            {results.map((card, index) => (
+            {results.map((card) => (
                 <div className="col-4" key={card.message_id}>
                     <div className="card">
                         <img
