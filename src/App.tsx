@@ -1,41 +1,52 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import './styles/custom-theme.css';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import ImageUploader from './components/ImageUploader';
 import SearchBar from './components/SearchBar';
 import ResultGrid from './components/ResultGrid';
-import ImagePreview from './components/ImagePreview';
-import { useSearch } from './hooks/useSearch';
-import { initializeTelegram } from './utils/telegram';
+import {ImageCardType} from "./types/types.ts";
 
 const App: React.FC = () => {
     const [query, setQuery] = useState('');
-    const [selectedImage, setSelectedImage] = useState<File | null>(null);
-    const [tgAvailable, setTgAvailable] = useState(false);
-    const { results, performSearch } = useSearch();
-
-    const handleSearch = useCallback(async () => {
-        await performSearch(query, selectedImage);
-    }, [query, selectedImage, performSearch]);
+    const [debouncedQuery, setDebouncedQuery] = useState(query);
+    const [imageCards, setImageCards] = useState<ImageCardType[]>([]);
+    const [userID, setUserID] = useState<string | null>(null);
 
     useEffect(() => {
-        setSelectedImage(null);
+        const params = new URLSearchParams(window.location.search);
+        const id = params.get('user_id');
+        if (id) {
+            setUserID(id)
+        }
+    }, []);
+
+    useEffect(() => {
+        setImageCards([])
+        const handler = setTimeout(() => {
+            setDebouncedQuery(query);
+        }, 500);
+        return () => {
+            clearTimeout(handler);
+        };
     }, [query]);
 
     useEffect(() => {
-        const isAvailable = initializeTelegram(handleSearch);
-        setTgAvailable(isAvailable);
-    }, [handleSearch]);
+        if (debouncedQuery) {
+            fetch(`http://localhost:8080/api/v1/search?user_id=${userID}&query=${debouncedQuery}`)
+                .then(res => res.json())
+                .then(data => {
+                    setImageCards(data)
+                });
+        }
+    }, [userID, debouncedQuery]);
 
     return (
         <div className="d-flex flex-column min-vh-100">
             <Header/>
             <main className="container text-center flex-grow-1 py-4">
-                <SearchBar value={query} onChange={setQuery} onSearch={handleSearch}/>
-                <ImageUploader searchQuery={query} onImageSelect={setSelectedImage} />
-                <ImagePreview image={selectedImage} tgAvailable={tgAvailable} onSearch={handleSearch}/>
-                <ResultGrid results={results}/>
+                <SearchBar query={query} setQuery={setQuery}/>
+                {/*<ChatInfo/>*/}
+                <ResultGrid results={imageCards}/>
             </main>
             <Footer/>
         </div>
