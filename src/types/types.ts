@@ -7,3 +7,33 @@ export interface ImageCardType {
     chat_name: string;        // string
     created_at: string;       // time.Time as ISO string
 }
+
+interface TelegramUser {
+    id: number;
+    first_name: string;
+    last_name?: string;
+    username?: string;
+    language_code: string;
+}
+
+interface InitDataUnsafe {
+    user: TelegramUser;
+    query_id: string;
+    auth_date: number;
+    hash: string;
+}
+
+interface TelegramWebApp {
+    ready: () => void;
+    initDataUnsafe?: InitDataUnsafe;
+}
+
+interface TelegramWindow {
+    WebApp?: TelegramWebApp;
+}
+
+declare global {
+    interface Window {
+        Telegram?: TelegramWindow;
+    }
+}

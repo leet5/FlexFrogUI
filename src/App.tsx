@@ -15,10 +15,15 @@ const App: React.FC = () => {
     const [userID, setUserID] = useState<string | null>(null);
 
     useEffect(() => {
-        const params = new URLSearchParams(window.location.search);
-        const id = params.get('user_id');
-        if (id) {
-            setUserID(id)
+        if (window.Telegram?.WebApp) {
+            window.Telegram.WebApp.ready();
+
+            setTimeout(() => {
+                const user = window.Telegram?.WebApp?.initDataUnsafe?.user;
+                if (user?.id) {
+                    setUserID(user.id.toString());
+                }
+            }, 100);
         }
     }, []);
 
