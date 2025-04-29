@@ -8,6 +8,12 @@ export interface ImageCardType {
     created_at: string;       // time.Time as ISO string
 }
 
+export interface ChatCard {
+    id: string;
+    name: string;
+    thumbnail: string; // Base64 encoded []byte
+}
+
 interface TelegramUser {
     id: number;
     first_name: string;

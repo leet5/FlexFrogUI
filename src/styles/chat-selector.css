@@ -1,0 +1,59 @@
+.chat-selector-scrollable {
+    max-height: 75vh; /* or use vh if you want it relative to screen */
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 0.1rem;
+    border-radius: 12px;
+}
+
+.chat-card {
+    display: flex;
+    align-items: center;
+    background-color: #f8f9fa;
+    border-radius: 12px;
+    padding: 0.75rem 0.75rem;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.chat-card:hover {
+    background-color: #e0f7e9;
+    transform: translateY(-2px);
+}
+
+.chat-thumbnail {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 1rem;
+}
+
+.chat-name {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #333;
+}
+
+.selected-chat {
+    margin: 0.5rem auto;
+    justify-content: center;
+}
+
+.select-chat-message {
+    margin-bottom: 0.5rem;
+    background-color: #f8f9fa;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.message-content {
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #6c757d;
+}
