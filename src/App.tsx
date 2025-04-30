@@ -6,6 +6,7 @@ import SearchBar from './components/SearchBar';
 import ResultGrid from './components/ResultGrid';
 import ChatSelector from "./components/ChatSelector.tsx";
 import {ChatCard} from "./types/types.ts";
+import Loading from "./components/Loading.tsx";
 
 const App: React.FC = () => {
     const backendURL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:8080';
@@ -14,8 +15,11 @@ const App: React.FC = () => {
     const [userID, setUserID] = useState<string | null>(null);
     const [chatID, setChatID] = useState<string | null>(null);
     const [chats, setChats] = useState<ChatCard[]>([]);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [noChats, setNoChats] = useState<boolean>(false);
 
     useEffect(() => {
+        setIsLoading(true)
         if (window.Telegram?.WebApp) {
             window.Telegram.WebApp.ready();
             setTimeout(() => {
@@ -30,13 +34,32 @@ const App: React.FC = () => {
                 }
             }, 100);
         }
+        setIsLoading(false)
     }, [backendURL]);
+
+    useEffect(() => {
+        if (chats.length === 0) {
+            setNoChats(true);
+        }
+    }, [chats]);
 
     useEffect(() => {
         setQuery('')
     }, [chatID])
 
-    if (!chats || chats.length === 0) {
+    if (isLoading) {
+        return (
+            <div className="d-flex flex-column min-vh-100">
+                <Header/>
+                <main className="container text-center flex-grow-1 py-4">
+                    <Loading/>
+                </main>
+                <Footer/>
+            </div>
+        );
+    }
+
+    if (noChats) {
         return (
             <div className="d-flex flex-column min-vh-100">
                 <Header/>
