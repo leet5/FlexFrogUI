@@ -38,9 +38,7 @@ const App: React.FC = () => {
     }, [backendURL]);
 
     useEffect(() => {
-        if (chats.length === 0) {
-            setNoChats(true);
-        }
+        setNoChats(chats.length === 0);
     }, [chats]);
 
     useEffect(() => {
