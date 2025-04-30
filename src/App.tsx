@@ -36,6 +36,24 @@ const App: React.FC = () => {
         setQuery('')
     }, [chatID])
 
+    if (!chats || chats.length === 0) {
+        return (
+            <div className="d-flex flex-column min-vh-100">
+                <Header/>
+                <main className="container text-center flex-grow-1 py-4">
+                    <div className="empty-state-container">
+                        <i className="bi bi-chat-dots fs-1 mb-3 empty-state-icon"></i>
+                        <h2 className="empty-state-title">No Chats Available</h2>
+                        <p className="empty-state-text">
+                            Start by writing a message in a chat where the bot is present
+                        </p>
+                    </div>
+                </main>
+                <Footer/>
+            </div>
+        );
+    }
+
     return (
         <div className="d-flex flex-column min-vh-100">
             <Header/>
