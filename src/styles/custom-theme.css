@@ -56,3 +56,20 @@
     position: absolute;
     pointer-events: none;
 }
+
+.header-fixed {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    transition: transform 0.3s ease;
+}
+
+.header-hidden {
+    transform: translateY(-100%);
+}
+
+.content-jump-fix {
+    padding-top: 62px;
+}

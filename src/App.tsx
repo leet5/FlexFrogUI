@@ -40,13 +40,15 @@ const App: React.FC = () => {
         <div className="d-flex flex-column min-vh-100">
             <Header/>
             <main className="container text-center flex-grow-1 py-4">
-                <ChatSelector chat={chatID} setChat={setChatID} chats={chats}/>
-                {chatID && (
-                    <>
-                        <SearchBar query={query} setQuery={setQuery}/>
-                        <ResultGrid userID={userID} chatID={chatID} query={query} backendURL={backendURL}/>
-                    </>
-                )}
+                <div className="content-jump-fix">
+                    <ChatSelector chat={chatID} setChat={setChatID} chats={chats}/>
+                    {chatID && (
+                        <>
+                            <SearchBar query={query} setQuery={setQuery}/>
+                            <ResultGrid userID={userID} chatID={chatID} query={query} backendURL={backendURL}/>
+                        </>
+                    )}
+                </div>
             </main>
             <Footer/>
         </div>
