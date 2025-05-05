@@ -18,26 +18,43 @@ const App: React.FC = () => {
     const [isLoading, setIsLoading] = useState<boolean>(true);
 
     useEffect(() => {
-        setIsLoading(true)
-        if (window.Telegram?.WebApp) {
+        let timeout: ReturnType<typeof setTimeout>;
+
+        const initTelegram = async () => {
+            if (!window.Telegram?.WebApp) {
+                console.warn("Telegram WebApp not found; using fallback");
+                setIsLoading(false);
+                return;
+            }
+
             window.Telegram.WebApp.ready();
-            setTimeout(() => {
-                const user = window.Telegram?.WebApp?.initDataUnsafe?.user;
-                if (user?.id) {
-                    setUserID(user.id.toString());
-                    fetch(`${backendURL}/api/v1/chats?user_id=${user.id.toString()}`)
-                        .then(res => res.json())
-                        .then(data => {
-                            setChats(data)
-                        })
-                        .finally(() => {
-                            setIsLoading(false)
-                        })
+
+            timeout = setTimeout(() => {
+                console.warn("Timed out waiting for Telegram initDataUnsafe.user");
+                setIsLoading(false);
+            }, 5000);
+
+            const user = window.Telegram.WebApp.initDataUnsafe?.user;
+            if (user?.id) {
+                clearTimeout(timeout);
+                const uid = user.id.toString();
+                setUserID(uid);
+
+                try {
+                    const res = await fetch(`${backendURL}/api/v1/chats?user_id=${uid}`);
+                    const data = await res.json();
+                    setChats(data);
+                } catch (err) {
+                    console.error("Error fetching chats:", err);
                 }
-            }, 100);
-        } else {
-            setIsLoading(false)
-        }
+            }
+
+            setIsLoading(false);
+        };
+
+        initTelegram();
+
+        return () => clearTimeout(timeout);
     }, [backendURL]);
 
     useEffect(() => {
