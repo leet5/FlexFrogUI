@@ -34,7 +34,7 @@ interface TelegramWebApp {
     initDataUnsafe?: InitDataUnsafe;
 }
 
-interface TelegramWindow {
+export interface TelegramWindow {
     WebApp?: TelegramWebApp;
 }
 

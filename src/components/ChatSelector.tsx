@@ -5,25 +5,10 @@ import {ChatCard} from "../types/types.ts";
 type ChatSelectorProps = {
     chat: string | null;
     setChat: (value: string | null) => void;
-    chats: ChatCard[];
+    chats: ChatCard[] | null;
 }
 
 const ChatSelector: React.FC<ChatSelectorProps> = ({chat, setChat, chats}) => {
-    const selectedChat = chats.find(c => c.id === chat);
-
-    if (chat && selectedChat) {
-        return (
-            <div className="chat-card selected-chat" onClick={() => setChat(null)}>
-                <img
-                    className="chat-thumbnail"
-                    src={`data:image/jpeg;base64,${selectedChat.thumbnail}`}
-                    alt={selectedChat.name}
-                />
-                <span className="chat-name">{selectedChat.name}</span>
-            </div>
-        );
-    }
-
     if (!chats || chats.length === 0) {
         return (
             <div className="d-flex flex-column min-vh-100">
@@ -36,6 +21,18 @@ const ChatSelector: React.FC<ChatSelectorProps> = ({chat, setChat, chats}) => {
                         </p>
                     </div>
                 </main>
+            </div>
+        );
+    }
+
+    const selectedChat = chats.find(c => c.id === chat);
+
+    if (chat && selectedChat) {
+        return (
+            <div className="chat-card selected-chat" onClick={() => setChat(null)}>
+                <img className="chat-thumbnail" src={`data:image/jpeg;base64,${selectedChat.thumbnail}`}
+                     alt={selectedChat.name}/>
+                <span className="chat-name">{selectedChat.name}</span>
             </div>
         );
     }
