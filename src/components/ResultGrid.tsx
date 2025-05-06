@@ -15,7 +15,6 @@ const ResultGrid: React.FC<ResultGridProps> = ({userID, chat, query, backendURL}
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
     useEffect(() => {
-        setResults([])
         const handler = setTimeout(() => {
             setDebouncedQuery(query);
         }, 500);
@@ -26,6 +25,7 @@ const ResultGrid: React.FC<ResultGridProps> = ({userID, chat, query, backendURL}
 
     useEffect(() => {
         if (debouncedQuery) {
+            setResults([])
             setIsLoading(true)
             fetch(`${backendURL}/api/v1/search?user_id=${userID}&chat_id=${chat.id}&query=${debouncedQuery}`)
                 .then(res => res.json())
