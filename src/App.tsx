@@ -13,7 +13,7 @@ const App: React.FC = () => {
 
     const [query, setQuery] = useState('');
     const [userID, setUserID] = useState<string | null>(null);
-    const [chatID, setChatID] = useState<string | null>(null);
+    const [chat, setChat] = useState<ChatCard | null>(null);
     const [chats, setChats] = useState<ChatCard[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(true);
 
@@ -59,7 +59,7 @@ const App: React.FC = () => {
 
     useEffect(() => {
         setQuery('')
-    }, [chatID])
+    }, [chat])
 
     if (isLoading) {
         return (
@@ -78,11 +78,11 @@ const App: React.FC = () => {
             <Header/>
             <main className="container text-center flex-grow-1 py-4">
                 <div className="content-jump-fix">
-                    <ChatSelector chat={chatID} setChat={setChatID} chats={chats}/>
-                    {chatID && (
+                    <ChatSelector chat={chat} setChat={setChat} chats={chats}/>
+                    {chat && (
                         <>
                             <SearchBar query={query} setQuery={setQuery}/>
-                            <ResultGrid userID={userID} chatID={chatID} query={query} backendURL={backendURL}/>
+                            <ResultGrid userID={userID} chat={chat} query={query} backendURL={backendURL}/>
                         </>
                     )}
                 </div>

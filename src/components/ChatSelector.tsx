@@ -3,8 +3,8 @@ import "../styles/chat-selector.css"
 import {ChatCard} from "../types/types.ts";
 
 type ChatSelectorProps = {
-    chat: string | null;
-    setChat: (value: string | null) => void;
+    chat: ChatCard | null;
+    setChat: (value: ChatCard | null) => void;
     chats: ChatCard[] | null;
 }
 
@@ -25,7 +25,7 @@ const ChatSelector: React.FC<ChatSelectorProps> = ({chat, setChat, chats}) => {
         );
     }
 
-    const selectedChat = chats.find(c => c.id === chat);
+    const selectedChat = chats.find(c => c.id === chat?.id);
 
     if (chat && selectedChat) {
         return (
@@ -47,7 +47,7 @@ const ChatSelector: React.FC<ChatSelectorProps> = ({chat, setChat, chats}) => {
             </div>
             <div className="chat-selector-scrollable">
                 {chats.map(c => (
-                    <div key={c.id} className="chat-card" onClick={() => setChat(c.id)}>
+                    <div key={c.id} className="chat-card" onClick={() => setChat(c)}>
                         <img
                             className="chat-thumbnail"
                             src={`data:image/jpeg;base64,${c.thumbnail}`}

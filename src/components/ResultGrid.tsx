@@ -1,15 +1,15 @@
 import React, {useEffect, useState} from 'react';
-import {ImageCardType} from '../types/types';
+import {ChatCard, ImageCardType} from '../types/types';
 import Loading from "./Loading.tsx";
 
 type ResultGridProps = {
     userID: string | null;
-    chatID: string | null;
+    chat: ChatCard;
     query: string;
     backendURL: string
 };
 
-const ResultGrid: React.FC<ResultGridProps> = ({userID, chatID, query, backendURL}) => {
+const ResultGrid: React.FC<ResultGridProps> = ({userID, chat, query, backendURL}) => {
     const [results, setResults] = React.useState<ImageCardType[]>([]);
     const [debouncedQuery, setDebouncedQuery] = useState<string>(query);
     const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -27,7 +27,7 @@ const ResultGrid: React.FC<ResultGridProps> = ({userID, chatID, query, backendUR
     useEffect(() => {
         if (debouncedQuery) {
             setIsLoading(true)
-            fetch(`${backendURL}/api/v1/search?user_id=${userID}&chat_id=${chatID}&query=${debouncedQuery}`)
+            fetch(`${backendURL}/api/v1/search?user_id=${userID}&chat_id=${chat.id}&query=${debouncedQuery}`)
                 .then(res => res.json())
                 .then(data => {
                     setResults(data)
@@ -36,7 +36,7 @@ const ResultGrid: React.FC<ResultGridProps> = ({userID, chatID, query, backendUR
                     setIsLoading(false)
                 })
         }
-    }, [debouncedQuery, userID, chatID, backendURL]);
+    }, [debouncedQuery, userID, chat, backendURL]);
 
     if (isLoading) {
         return (<Loading/>);
@@ -46,16 +46,32 @@ const ResultGrid: React.FC<ResultGridProps> = ({userID, chatID, query, backendUR
         return null;
     }
 
+    const getTelegramLink = (messageId: number): string => {
+        if (chat.is_private) {
+            const cleanId = String(chat.id).replace('-100', '');
+            return `https://t.me/c/${cleanId}/${messageId}`;
+        } else if (chat.name) {
+            return `https://t.me/${chat.name}/${messageId}`;
+        }
+        return '#'; // fallback
+    };
+
     return (
         <div className="row g-2 mt-4">
             {results.map((card) => (
                 <div className="col-6 col-sm-4 col-md-3 col-lg-2" key={card.message_id}>
                     <div className="card">
-                        <img
-                            src={`data:image/jpeg;base64,${card.image_thumbnail}`}
-                            alt="Message image"
-                            className="card-img-top"
-                        />
+                        <a
+                            href={getTelegramLink(card.message_id)}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            <img
+                                src={`data:image/jpeg;base64,${card.image_thumbnail}`}
+                                alt="Message image"
+                                className="card-img-top"
+                            />
+                        </a>
                         <UserInfo card={card}/>
                     </div>
                 </div>

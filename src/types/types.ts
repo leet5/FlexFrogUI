@@ -12,6 +12,7 @@ export interface ChatCard {
     id: string;
     name: string;
     thumbnail: string; // Base64 encoded []byte
+    is_private: boolean;
 }
 
 interface TelegramUser {
