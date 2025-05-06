@@ -39,9 +39,7 @@ const ResultGrid: React.FC<ResultGridProps> = ({userID, chatID, query, backendUR
     }, [debouncedQuery, userID, chatID, backendURL]);
 
     if (isLoading) {
-        return (
-            <Loading/>
-        );
+        return (<Loading/>);
     }
 
     if (!results || results.length === 0) {
@@ -51,43 +49,43 @@ const ResultGrid: React.FC<ResultGridProps> = ({userID, chatID, query, backendUR
     return (
         <div className="row g-2 mt-4">
             {results.map((card) => (
-                <div className="col-12 col-sm-6 col-md-4" key={card.message_id}>
+                <div className="col-6 col-sm-4 col-md-3 col-lg-2" key={card.message_id}>
                     <div className="card">
                         <img
                             src={`data:image/jpeg;base64,${card.image_thumbnail}`}
                             alt="Message image"
                             className="card-img-top"
                         />
-                        <div className="card-body">
-                            <div className="d-flex align-items-center mb-2">
-                                <img
-                                    src={`data:image/jpeg;base64,${card.user_thumbnail}`}
-                                    alt={card.user_name}
-                                    className="rounded-circle me-2"
-                                    width="24"
-                                    height="24"
-                                />
-                                <span className="d-flex flex-column text-break">
-                                    @{card.user_name} {' '}
-                                    {new Date(card.created_at).toLocaleDateString('en-GB', {
-                                        day: '2-digit',
-                                        month: '2-digit',
-                                        year: 'numeric',
-                                    })} {' '}
-                                    {new Date(card.created_at).toLocaleTimeString(undefined, {
-                                        hour: '2-digit',
-                                        minute: '2-digit',
-                                        second: '2-digit',
-                                        hour12: false,
-                                    })}
-                                </span>
-                            </div>
-                        </div>
+                        <UserInfo card={card}/>
                     </div>
                 </div>
             ))}
-        </div>
-    )
+        </div>)
 };
 
 export default ResultGrid;
+
+const UserInfo: React.FC<{ card: ImageCardType }> = ({card}) => {
+    return (
+        <div className="card-body py-2 px-2">
+            <div className="d-flex align-items-center">
+                <img
+                    src={`data:image/jpeg;base64,${card.user_thumbnail}`}
+                    alt={card.user_name}
+                    className="rounded-circle me-1"
+                    width="16"
+                    height="16"
+                />
+                <span className="text-truncate" style={{fontSize: '0.7rem', lineHeight: '1rem'}}>
+                    @{card.user_name}{' '}
+                    {new Date(card.created_at).toLocaleDateString('en-GB', {
+                        day: '2-digit', month: '2-digit', year: '2-digit',
+                    })}{' '}
+                    {new Date(card.created_at).toLocaleTimeString(undefined, {
+                        hour: '2-digit', minute: '2-digit', hour12: false,
+                    })}
+                </span>
+            </div>
+        </div>
+    );
+};

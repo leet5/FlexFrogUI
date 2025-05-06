@@ -73,3 +73,8 @@
 .content-jump-fix {
     padding-top: 62px;
 }
+
+.card-img-top {
+    object-fit: cover;
+    height: 150px;
+}
