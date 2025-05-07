@@ -43,7 +43,13 @@ const ResultGrid: React.FC<ResultGridProps> = ({userID, chat, query, backendURL}
     }
 
     if (!results || results.length === 0) {
-        return null;
+        return (
+            <div className="select-chat-message mt-4">
+                <div className="message-content">
+                    {!debouncedQuery ? 'Please enter a search term.' : 'No results found.'}
+                </div>
+            </div>
+        );
     }
 
     const getTelegramLink = (messageId: number): string => {
