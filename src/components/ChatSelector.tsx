@@ -31,8 +31,8 @@ const ChatSelector: React.FC<ChatSelectorProps> = ({chat, setChat, chats}) => {
         return (
             <div className="chat-card selected-chat" onClick={() => setChat(null)}>
                 <img className="chat-thumbnail" src={`data:image/jpeg;base64,${selectedChat.thumbnail}`}
-                     alt={selectedChat.name}/>
-                <span className="chat-name">{selectedChat.name}</span>
+                     alt={selectedChat.title}/>
+                <span className="chat-name">{selectedChat.title}</span>
             </div>
         );
     }
@@ -51,9 +51,9 @@ const ChatSelector: React.FC<ChatSelectorProps> = ({chat, setChat, chats}) => {
                         <img
                             className="chat-thumbnail"
                             src={`data:image/jpeg;base64,${c.thumbnail}`}
-                            alt={c.name}
+                            alt={c.title}
                         />
-                        <span className="chat-name">{c.name}</span>
+                        <span className="chat-name">{c.title}</span>
                     </div>
                 ))}
             </div>

@@ -56,8 +56,8 @@ const ResultGrid: React.FC<ResultGridProps> = ({userID, chat, query, backendURL}
         if (chat.is_private) {
             const cleanId = String(chat.id).replace('-100', '');
             return `https://t.me/c/${cleanId}/${messageId}`;
-        } else if (chat.name) {
-            return `https://t.me/${chat.name}/${messageId}`;
+        } else if (chat.username) {
+            return `https://t.me/${chat.username}/${messageId}`;
         }
         return '#'; // fallback
     };

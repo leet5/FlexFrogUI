@@ -10,7 +10,8 @@ export interface ImageCardType {
 
 export interface ChatCard {
     id: string;
-    name: string;
+    title: string;
+    username: string;
     thumbnail: string; // Base64 encoded []byte
     is_private: boolean;
 }
